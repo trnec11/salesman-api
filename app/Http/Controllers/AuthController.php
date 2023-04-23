@@ -35,7 +35,7 @@ class AuthController extends Controller
             'server:delete'
         ];
 
-        // Demonstrate abilities for Salesman API
+        // Demonstrate abilities: user can read only
         if ($user['email'] === 'johnwick@example.com') {
             $abilities = ['server:read'];
         }
