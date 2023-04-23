@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Helpers\Diacritics;
+
 /**
  * Class MaritalStatus
  * @package App\Service
@@ -10,23 +12,23 @@ namespace App\Enums;
 class MaritalStatus
 {
     const M_MARITAL_STATUSES = [
-        'single' => 'slobodný',
-        'married' => 'ženatý',
-        'divorced' => 'rozvedený',
+        'single' => 'slobodny',
+        'married' => 'zenaty',
+        'divorced' => 'rozvedeny',
         'widowed' => 'vdovec',
     ];
 
     const F_MARITAL_STATUSES = [
-        'single' => 'slobodná',
-        'married' => 'vydatá',
-        'divorced' => 'rozvedená',
+        'single' => 'slobodna',
+        'married' => 'vydata',
+        'divorced' => 'rozvedena',
         'widowed' => 'vdova',
     ];
 
     const G_MARITAL_STATUSES = [
-        'single' => 'slobodný / slobodná',
-        'married' => 'ženatý / vydatá',
-        'divorced' => 'rozvedený / rozvedená',
+        'single' => 'slobodny / slobodna',
+        'married' => 'zenaty / vydata',
+        'divorced' => 'rozvedeny / rozveden',
         'widowed' => 'vdovec / vdova',
     ];
 
@@ -46,5 +48,32 @@ class MaritalStatus
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $maritalStatus
+     * @return string
+     */
+    public function findMaritalStatus(string $maritalStatus): string
+    {
+        if (in_array($maritalStatus, array_keys(self::M_MARITAL_STATUSES))) {
+            return $maritalStatus;
+        }
+
+        $maritalStatus = Diacritics::replaceDiacritics($maritalStatus);
+
+        if ($key = array_search($maritalStatus, self::M_MARITAL_STATUSES)) {
+            return self::M_MARITAL_STATUSES[$key];
+        }
+
+        if ($key = array_search($maritalStatus, self::F_MARITAL_STATUSES)) {
+            return self::F_MARITAL_STATUSES[$key];
+        }
+
+        if ($key = array_search($maritalStatus, self::G_MARITAL_STATUSES)) {
+            return self::G_MARITAL_STATUSES[$key];
+        }
+
+        return '';
     }
 }

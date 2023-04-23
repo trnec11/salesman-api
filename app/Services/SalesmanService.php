@@ -99,6 +99,9 @@ final class SalesmanService
             );
         }
 
+        $attributes['gender'] = $this->gender->findGender($attributes['gender']);
+        $attributes['marital_status'] = $this->maritalStatus->findMaritalStatus($attributes['marital_status']);
+
         $validator = Validator::make($attributes, [
             'first_name' => 'required',
             'last_name' => 'required',
@@ -158,6 +161,14 @@ final class SalesmanService
 
         if (is_null($salesman)) {
             throw new NotFoundException('Salesman not found');
+        }
+
+        if (isset($attributes['gender'])) {
+            $attributes['gender'] = $this->gender->findGender($attributes['gender']);
+        }
+
+        if (isset($attributes['marital_status'])) {
+            $attributes['marital_status'] = $this->maritalStatus->findMaritalStatus($attributes['marital_status']);
         }
 
         $validator = Validator::make($attributes, [

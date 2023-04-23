@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace App\Enums;
 
+use App\Helpers\Diacritics;
+
 class Gender
 {
     const GENDER_STATUSES = [
-        'm' => 'muž',
-        'f' => 'žena',
+        'm' => 'muz',
+        'f' => 'zena',
     ];
 
     /**
@@ -25,5 +27,22 @@ class Gender
         }
 
         return $result;
+    }
+
+    /**
+     * @param string $gender
+     * @return string
+     */
+    public function findGender(string $gender): string
+    {
+        if (in_array($gender, array_keys(self::GENDER_STATUSES))) {
+            return $gender;
+        }
+
+        if ($key = array_search(Diacritics::replaceDiacritics($gender), self::GENDER_STATUSES)) {
+            return self::GENDER_STATUSES[$key];
+        }
+
+        return '';
     }
 }
