@@ -18,7 +18,7 @@
 #### DELETE    http://localhost/api/salesman
 
 ### Use API
-The first step is to log in the user. There are two users in the system with different abilities. John Doe has access to all API operations, so far what john just readonly. first you need to call the login path with credentials.
+The first step is to log in the user. There are two users in the system with different abilities. John Doe has access to all API operations, so far what John Wick just readonly. first you need to call the login path with credentials.
 John Doe login: johndoe@example.com password: password
 John Wick login: johnwick@example.com password: password
 After call login you can get a new token for another API operations. Token is well set as bearer. At this moment you can try all api calls.
