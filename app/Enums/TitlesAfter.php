@@ -11,8 +11,14 @@ class TitlesAfter
     public function get(): array
     {
         return [
-            'CSc.', 'DrSc.', 'PhD.', 'ArtD.', 'DiS', 'DiS.art', 'FEBO', 'MPH', 'BSBA', 'MBA', 'DBA', 'MHA',
-            'FCCA', 'MSc.', 'FEBU', 'LL.M'
+            'code' => [
+                'CSc.', 'DrSc.', 'PhD.', 'ArtD.', 'DiS', 'DiS.art', 'FEBO', 'MPH', 'BSBA', 'MBA', 'DBA', 'MHA',
+                'FCCA', 'MSc.', 'FEBU', 'LL.M'
+            ],
+            'name' => [
+                'CSc.', 'DrSc.', 'PhD.', 'ArtD.', 'DiS', 'DiS.art', 'FEBO', 'MPH', 'BSBA', 'MBA', 'DBA', 'MHA',
+                'FCCA', 'MSc.', 'FEBU', 'LL.M'
+            ]
         ];
     }
 }

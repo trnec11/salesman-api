@@ -20,8 +20,8 @@ class Gender
 
         foreach ($genderCodes as $genderCode) {
             $result['code'][] = $genderCode;
-            $result['m'][] = self::GENDER_STATUSES[$genderCode];
-            $result['f'][] = self::GENDER_STATUSES[$genderCode];
+            $result['name']['m'][] = self::GENDER_STATUSES[$genderCode];
+            $result['name']['f'][] = self::GENDER_STATUSES[$genderCode];
         }
 
         return $result;

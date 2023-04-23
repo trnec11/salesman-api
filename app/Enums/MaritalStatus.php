@@ -40,9 +40,9 @@ class MaritalStatus
 
         foreach ($maritalStatuses as $maritalStatus) {
             $result['code'][] = $maritalStatus;
-            $result['m'][] = self::M_MARITAL_STATUSES[$maritalStatus];
-            $result['f'][] = self::F_MARITAL_STATUSES[$maritalStatus];
-            $result['general'][] = self::G_MARITAL_STATUSES[$maritalStatus];
+            $result['name']['m'][] = self::M_MARITAL_STATUSES[$maritalStatus];
+            $result['name']['f'][] = self::F_MARITAL_STATUSES[$maritalStatus];
+            $result['name']['general'][] = self::G_MARITAL_STATUSES[$maritalStatus];
         }
 
         return $result;
