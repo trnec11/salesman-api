@@ -62,16 +62,28 @@ class MaritalStatus
 
         $maritalStatus = Diacritics::replaceDiacritics($maritalStatus);
 
-        if ($key = array_search($maritalStatus, self::M_MARITAL_STATUSES)) {
-            return self::M_MARITAL_STATUSES[$key];
+        if (in_array(Diacritics::replaceDiacritics($maritalStatus), self::M_MARITAL_STATUSES)) {
+            foreach (self::M_MARITAL_STATUSES as $key => $item) {
+                if ($item === Diacritics::replaceDiacritics($maritalStatus)) {
+                    return $key;
+                }
+            }
         }
 
-        if ($key = array_search($maritalStatus, self::F_MARITAL_STATUSES)) {
-            return self::F_MARITAL_STATUSES[$key];
+        if (in_array(Diacritics::replaceDiacritics($maritalStatus), self::F_MARITAL_STATUSES)) {
+            foreach (self::F_MARITAL_STATUSES as $key => $item) {
+                if ($item === Diacritics::replaceDiacritics($maritalStatus)) {
+                    return $key;
+                }
+            }
         }
 
-        if ($key = array_search($maritalStatus, self::G_MARITAL_STATUSES)) {
-            return self::G_MARITAL_STATUSES[$key];
+        if (in_array(Diacritics::replaceDiacritics($maritalStatus), self::G_MARITAL_STATUSES)) {
+            foreach (self::G_MARITAL_STATUSES as $key => $item) {
+                if ($item === Diacritics::replaceDiacritics($maritalStatus)) {
+                    return $key;
+                }
+            }
         }
 
         return '';

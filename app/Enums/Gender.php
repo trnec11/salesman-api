@@ -39,8 +39,12 @@ class Gender
             return $gender;
         }
 
-        if ($key = array_search(Diacritics::replaceDiacritics($gender), self::GENDER_STATUSES)) {
-            return self::GENDER_STATUSES[$key];
+        if (in_array(Diacritics::replaceDiacritics($gender), self::GENDER_STATUSES)) {
+            foreach (self::GENDER_STATUSES as $key => $item) {
+                if ($item === Diacritics::replaceDiacritics($gender)) {
+                    return $key;
+                }
+            }
         }
 
         return '';
