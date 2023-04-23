@@ -26,9 +26,9 @@ return new class extends Migration
             ])->nullable();
             $table->string('prosight_id', 5)->unique();
             $table->string('email', 150)->unique();
-            $table->string('phone', 150)->nullable();
+            $table->string('phone', 50)->nullable();
             $table->enum('gender', ['m', 'f']);
-            $table->enum('marital_status', ['single', 'married', 'divorced', 'widowed']);
+            $table->enum('marital_status', ['single', 'married', 'divorced', 'widowed'])->default('single');
             $table->timestamps();
         });
     }
