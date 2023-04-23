@@ -1,8 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Service;
+namespace App\Services;
 
+use App\Enums\Gender;
+use App\Enums\MaritalStatus;
+use App\Enums\TitlesAfter;
+use App\Enums\TitlesBefore;
 use App\Exceptions\AlreadyExistsException;
 use App\Exceptions\ForbiddenErrorException;
 use App\Exceptions\InputDataBadFormatErrorException;
@@ -12,21 +16,38 @@ use App\Models\Salesman;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
+/**
+ * Class SalesmanService
+ * @package App\Service
+ */
 final class SalesmanService
 {
+    /**
+     * @param TitlesBefore $titlesBefore
+     * @param TitlesAfter $titlesAfter
+     * @param Gender $gender
+     * @param MaritalStatus $maritalStatus
+     */
+    public function __construct(
+        private readonly TitlesBefore $titlesBefore,
+        private readonly TitlesAfter $titlesAfter,
+        private readonly Gender $gender,
+        private readonly MaritalStatus $maritalStatus
+    ) {
+    }
+
     /**
      * @throws ForbiddenErrorException
      * @throws InputDataBadFormatErrorException
      */
     public function list(array $attributes): LengthAwarePaginator
     {
-        if (Auth::user()->tokenCan('server:create') === false) {
+        if (Auth::user()->tokenCan('server:read') === false) {
             throw new ForbiddenErrorException(
                 'You are not allowed to perform this action on Salesman.'
             );
@@ -81,12 +102,12 @@ final class SalesmanService
         $validator = Validator::make($attributes, [
             'first_name' => 'required',
             'last_name' => 'required',
-            'titles_before' => 'string',
-            'titles_after' => 'string',
+            'titles_before' => ['string', Rule::in($this->titlesBefore->get())],
+            'titles_after' => ['string', Rule::in($this->titlesAfter->get())],
             'prosight_id' => 'required|numeric',
             'email' => 'required|email:rfc',
-            'gender' => 'required|in:m,f',
-            'marital_status' => 'in:single,married,divorced,widowed',
+            'gender' => ['required', Rule::in($this->gender->get()['code'])],
+            'marital_status' => Rule::in($this->maritalStatus->get()['code']),
         ]);
 
         if ($validator->fails()){
@@ -118,15 +139,14 @@ final class SalesmanService
     }
 
     /**
-     * @param string $uuid
      * @param array $attributes
-     * @return int
+     * @return Salesman
      * @throws ForbiddenErrorException
      * @throws InputDataBadFormatErrorException
      * @throws InputDataOutOfRangeErrorException
      * @throws NotFoundException
      */
-    public function update(string $uuid, array $attributes): int
+    public function update(array $attributes): Salesman
     {
         if (Auth::user()->tokenCan('server:update') === false) {
             throw new ForbiddenErrorException(
@@ -134,21 +154,22 @@ final class SalesmanService
             );
         }
 
-        $salesman = Salesman::query()->where(['uuid' => $uuid]);
+        $salesman = Salesman::query()->where(['uuid' => $attributes['uuid']])->first();
 
         if (is_null($salesman)) {
             throw new NotFoundException('Salesman not found');
         }
 
         $validator = Validator::make($attributes, [
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'titles_before' => 'string',
-            'titles_after' => 'string',
-            'prosight_id' => 'required|numeric',
-            'email' => 'required|email:rfc',
-            'gender' => 'required|in:m,f',
-            'marital_status' => 'in:single,married,divorced,widowed',
+            'uuid' => 'uuid',
+            'first_name' => 'string',
+            'last_name' => 'string',
+            'titles_before' => ['string', Rule::in($this->titlesBefore->get())],
+            'titles_after' => ['string', Rule::in($this->titlesAfter->get())],
+            'prosight_id' => 'numeric',
+            'email' => 'email:rfc',
+            'gender' => Rule::in($this->gender->get()['code']),
+            'marital_status' => Rule::in($this->maritalStatus->get()['code']),
         ]);
 
         if ($validator->fails()){
@@ -160,20 +181,25 @@ final class SalesmanService
             );
         }
 
-        if (strlen($attributes['prosight_id']) !== 5) {
+        if (isset($attributes['prosight_id']) && strlen($attributes['prosight_id']) !== 5) {
             throw new InputDataOutOfRangeErrorException(
                 sprintf('Input data out of range. Field prosight_id of value %s is out of range. Acceptable range for this field is 5.', $attributes['prosight_id'])
             );
         }
 
-        return $salesman->update($attributes);
+        $salesman->fill($attributes)->save();
+
+        /* @var Salesman $salesman */
+        return $salesman;
     }
 
     /**
-     * @throws NotFoundException
+     * @param array $attributes
      * @throws ForbiddenErrorException
+     * @throws InputDataBadFormatErrorException
+     * @throws NotFoundException
      */
-    public function delete(string $uuid): void
+    public function delete(array $attributes): void
     {
         if (Auth::user()->tokenCan('server:delete') === false) {
             throw new ForbiddenErrorException(
@@ -181,10 +207,23 @@ final class SalesmanService
             );
         }
 
-        $salesman = Salesman::query()->where(['uuid' => $uuid]);
+        $validator = Validator::make($attributes, [
+            'uuid' => 'uuid'
+        ]);
+
+        if ($validator->fails()){
+            throw new InputDataBadFormatErrorException(
+                sprintf(
+                    'Bad format of input data. Fields: %s',
+                    implode(' ', $validator->errors()->all())
+                )
+            );
+        }
+
+        $salesman = Salesman::query()->where(['uuid' => $attributes['uuid']])->first();
 
         if (is_null($salesman)) {
-            throw new NotFoundException(sprintf('Salesman %s not found.', $uuid));
+            throw new NotFoundException(sprintf('Salesman %s not found.', $attributes['uuid']));
         }
 
         $salesman->delete();
