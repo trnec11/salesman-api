@@ -128,11 +128,17 @@ final class SalesmanService
             );
         }
 
-        if (Salesman::query()->where(['prosight_id' => $attributes['prosight_id']])->exists() ||
-            Salesman::query()->where(['email' => $attributes['email']])->exists())
+        if (Salesman::query()->where(['prosight_id' => $attributes['prosight_id']])->exists())
         {
             throw new AlreadyExistsException(
                 sprintf("Couldn't create a salesman. Salesman with Prosight ID: %s already exists.", $attributes['prosight_id'])
+            );
+        }
+
+        if (Salesman::query()->where(['email' => $attributes['email']])->exists())
+        {
+            throw new AlreadyExistsException(
+                sprintf("Couldn't create a salesman. Salesman with email: %s already exists.", $attributes['email'])
             );
         }
 
