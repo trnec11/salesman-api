@@ -1,13 +1,9 @@
 ## Salesman API (Laravel APP)
 ### 1.) Clone repository
-### 2.) Install Sail
-#### a) composer require laravel/sail --dev
-#### b) php artisan sail:install
-#### c) ./vendor/bin/sail up or sail up -d
-#### d) php artisan sail:add (If you would like to add an additional service to your existing Sail installation, you may run the sail:add)
-#### e) run: ./vendor/bin/sail artisan migrate
-#### f) run: ./vendor/bin/sail artisan db:seed
-#### g) run: ./vendor/bin/sail artisan db:seed
+#### a) php artisan sail:install
+#### b) ./vendor/bin/sail up or sail up -d
+#### c) run: ./vendor/bin/sail artisan migrate
+#### d) run: ./vendor/bin/sail artisan db:seed
 
 ## Route List
 #### GET|HEAD  http://localhost/api/codelists
