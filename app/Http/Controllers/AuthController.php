@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -21,7 +22,7 @@ class AuthController extends Controller
     {
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password]) === false) {
             return response()->json(
-                ['error' => 'The provided credentials are incorrect.'],
+                ['message' => 'The provided credentials are incorrect.'],
                 Response::HTTP_BAD_REQUEST
             );
         }
@@ -44,5 +45,17 @@ class AuthController extends Controller
         $success['user'] = $user;
 
         return response()->json($success, Response::HTTP_OK);
+    }
+
+    /**
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function logout(Request $request): JsonResponse
+    {
+        $user = User::query()->find($request->get('user_id'));
+        $user->tokens()->delete();
+
+        return response()->json($user, Response::HTTP_OK);
     }
 }

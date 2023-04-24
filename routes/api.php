@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::post('login', [AuthController::class, 'login']);
+Route::post('logout', [AuthController::class, 'logout']);
 Route::get('codelists', [CodeListController::class, 'index'])->middleware('auth:sanctum');
 
 Route::get('salesman', [SalesmanController::class, 'index'])->name('salesman.list')->middleware('auth:sanctum');

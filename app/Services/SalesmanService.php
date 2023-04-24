@@ -166,7 +166,7 @@ final class SalesmanService
         $salesman = Salesman::query()->where(['uuid' => $attributes['uuid']])->first();
 
         if (is_null($salesman)) {
-            throw new NotFoundException('Salesman not found');
+            throw new NotFoundException(sprintf('Salesman %s not found.', $attributes['uuid']));
         }
 
         if (isset($attributes['gender'])) {

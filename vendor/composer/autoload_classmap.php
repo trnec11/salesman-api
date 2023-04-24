@@ -17,6 +17,7 @@ return array(
     'App\\Exceptions\\InputDataBadFormatErrorException' => $baseDir . '/app/Exceptions/InputDataBadFormatErrorException.php',
     'App\\Exceptions\\InputDataOutOfRangeErrorException' => $baseDir . '/app/Exceptions/InputDataOutOfRangeErrorException.php',
     'App\\Exceptions\\NotFoundException' => $baseDir . '/app/Exceptions/NotFoundException.php',
+    'App\\Helpers\\Diacritics' => $baseDir . '/app/Helpers/Diacritics.php',
     'App\\Http\\Controllers\\AuthController' => $baseDir . '/app/Http/Controllers/AuthController.php',
     'App\\Http\\Controllers\\CodeListController' => $baseDir . '/app/Http/Controllers/CodeListController.php',
     'App\\Http\\Controllers\\Controller' => $baseDir . '/app/Http/Controllers/Controller.php',

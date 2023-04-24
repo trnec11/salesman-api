@@ -516,6 +516,7 @@ class ComposerStaticInit66c792f484b9014b28a68cdf84602cbf
         'App\\Exceptions\\InputDataBadFormatErrorException' => __DIR__ . '/../..' . '/app/Exceptions/InputDataBadFormatErrorException.php',
         'App\\Exceptions\\InputDataOutOfRangeErrorException' => __DIR__ . '/../..' . '/app/Exceptions/InputDataOutOfRangeErrorException.php',
         'App\\Exceptions\\NotFoundException' => __DIR__ . '/../..' . '/app/Exceptions/NotFoundException.php',
+        'App\\Helpers\\Diacritics' => __DIR__ . '/../..' . '/app/Helpers/Diacritics.php',
         'App\\Http\\Controllers\\AuthController' => __DIR__ . '/../..' . '/app/Http/Controllers/AuthController.php',
         'App\\Http\\Controllers\\CodeListController' => __DIR__ . '/../..' . '/app/Http/Controllers/CodeListController.php',
         'App\\Http\\Controllers\\Controller' => __DIR__ . '/../..' . '/app/Http/Controllers/Controller.php',

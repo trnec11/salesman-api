@@ -19,3 +19,7 @@ John Doe login: johndoe@example.com password: password
 John Wick login: johnwick@example.com password: password
 After call login you can get a new token for another API operations. Token is well set as bearer. At this moment you can try all api calls.
 
+### Testing
+you can run Unit tests for all of API calls.
+
+./vendor/bin/sail artisan test
