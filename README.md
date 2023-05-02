@@ -23,3 +23,7 @@ After call login you can get a new token for another API operations. Token is we
 you can run Unit tests for all of API calls.
 
 ./vendor/bin/sail artisan test
+
+# When you have problem with test, you can run:
+mkdir tests/Unit
+sail composer dump-autoload
